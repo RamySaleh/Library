@@ -8,10 +8,10 @@ namespace Library.Models
 {
     public class Auther
     {
-        public string id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public IEnumerable<Book> WrittenBooks { get; set; }
+        public List<Book> WrittenBooks { get; set; }
     }
 }

@@ -8,12 +8,12 @@ namespace Library.Models
 {
     public class Book
     {
-        public string id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public IEnumerable<Auther> Authers { get; set; }
+        public List<Auther> Authers { get; set; }
 
-        public IEnumerable<BorrowOrder> BorrowOrders { get; set; }
+        public List<BorrowOrder> BorrowOrders { get; set; }
     }
 }

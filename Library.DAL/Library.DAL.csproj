@@ -40,7 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutherRepo.cs" />
+    <Compile Include="BookRepo.cs" />
+    <Compile Include="Helpers\ADOHelper.cs" />
+    <Compile Include="Helpers\SqlParametersHelper.cs" />
+    <Compile Include="IAutherRepo.cs" />
+    <Compile Include="IBookRepo.cs" />
+    <Compile Include="ILibraryRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library.Models\Library.Models.csproj">
+      <Project>{0a72ec59-8bcc-4291-b37e-07bb27f4e957}</Project>
+      <Name>Library.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
