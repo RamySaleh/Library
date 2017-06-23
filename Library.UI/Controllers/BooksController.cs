@@ -19,20 +19,22 @@ namespace Library.UI.Controllers
         {
             if (Session["User"] == null)
             {
-                //return RedirectToAction("Login", "User");
+                return RedirectToAction("Login", "User");
             }
 
             var books = new BAL.BookBAL(GlobalValues.ConnectionString).GetAllBooks();
 
             var booksModels = new List<BookModel>();
 
+            // Map the books to the view models
             foreach (var book in books)
             {
                 booksModels.Add(new BookModel
                 {
                     BookId = book.Id,
                     BookName = book.Name,
-                    Authers = ConcatAuthersNames(book.Authers)
+                    Authers = ConcatAuthersNames(book.Authers),
+                    IsAvailable = book.IsAvailable ? "Yes" : "No"
                 });
             }
 
@@ -81,6 +83,19 @@ namespace Library.UI.Controllers
             }
 
             return booksModels;
+        }
+        
+        public ActionResult BorrowBook(int bookId)
+        {
+            var currentUser = (User)Session["User"];
+            var result = new BAL.BookBAL(GlobalValues.ConnectionString).BorrowBook(bookId, currentUser.Id);
+
+            if (result)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return null;
         }
 
         private string ConcatAuthersNames(List<Auther> authers)

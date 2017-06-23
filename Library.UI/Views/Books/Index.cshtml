@@ -18,6 +18,9 @@
         <th>
             @Html.ActionLink("Authers", "Index", new { orderBy = "Auther" })
         </th>
+        <th>
+            Available
+        </th>
         <th></th>
     </tr>
 
@@ -30,7 +33,20 @@
             @Html.DisplayFor(modelItem => item.Authers)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BookId }) |
+            @Html.DisplayFor(modelItem => item.IsAvailable)
+        </td>
+        <td>
+            @{ 
+                if (item.IsAvailable == "Yes")
+                {
+                    @Html.ActionLink("Borrow", "BorrowBook", new { bookId = item.BookId })
+                }
+                else
+                {
+                    @Html.ActionLink("Return", "ReturnBook", new { bookId = item.BookId })
+                }
+            }
+            |
             @Html.ActionLink("Details", "Details", new { id=item.BookId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.BookId })
         </td>

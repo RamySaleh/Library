@@ -12,6 +12,8 @@ namespace Library.Models
 
         public string Name { get; set; }
 
+        public bool IsAvailable { get; set; }
+
         public List<Auther> Authers { get; set; }
 
         public List<BorrowOrder> BorrowOrders { get; set; }

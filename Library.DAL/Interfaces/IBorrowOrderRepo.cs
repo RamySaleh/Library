@@ -9,7 +9,7 @@ namespace Library.DAL
 {
     public interface IBorrowOrderRepo : IRepo<BorrowOrder>
     {
-        bool AddBorrowOrder(Book book, User user);
+        bool BorrowBook(int bookId, int userId);
 
         List<BorrowOrder> GetBorrowOrdersByBookId(int bookId);
     }

@@ -19,5 +19,10 @@ namespace Library.BAL
         {
             return new BookRepo(connectionString).GetAllBook();
         }
+
+        public bool BorrowBook(int bookId, int userId)
+        {
+            return new BorrowOrderRepo(connectionString).BorrowBook(bookId, userId);
+        }
     }
 }

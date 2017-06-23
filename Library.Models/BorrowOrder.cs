@@ -8,8 +8,6 @@ namespace Library.Models
 {
     public class BorrowOrder
     {
-        public Book Book { get; set; }
-
         public User Reader { get; set; }
 
         public DateTime BorrowTime { get; set; }

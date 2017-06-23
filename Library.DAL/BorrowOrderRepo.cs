@@ -13,15 +13,23 @@ namespace Library.DAL
     {
         private ADOHelper dbHelper;
         private const string sp_GetBorrowOrdersByBookId = "GetBorrowOrdersByBookId";
+        private const string sp_BorrowBook = "BorrowBook";        
 
         public BorrowOrderRepo(string connectionString)
         {
             dbHelper = new ADOHelper(connectionString);
         }
 
-        public bool AddBorrowOrder(Book book, User user)
+        public bool BorrowBook(int bookId, int userId)
         {
-            throw new NotImplementedException();
+            var sqlParameters = new SqlParametersHelper()
+               .AddParameter("@bookId", bookId, SqlDbType.Int)
+               .AddParameter("@userId", userId, SqlDbType.Int)
+               .GetParameters();
+
+            var result = dbHelper.ExecuteProcedure(sp_BorrowBook, sqlParameters);
+
+            return result;
         }      
 
         public List<BorrowOrder> GetBorrowOrdersByBookId(int bookId)
