@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Library.DAL
 {
-    public interface ILibraryRepo<T>
+    public interface IRepo<T>
     {
-        List<T> GetAll();
+        List<T> GetAll();        
     }
 }

@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library.DAL
 {
-    public interface IAutherRepo : ILibraryRepo<Auther>
+    public interface IBookRepo : IRepo<Book>
     {
-        List<Auther> GetAuthersByBookId(int bookId);
     }
 }

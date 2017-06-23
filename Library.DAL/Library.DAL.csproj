@@ -44,10 +44,12 @@
     <Compile Include="BookRepo.cs" />
     <Compile Include="Helpers\ADOHelper.cs" />
     <Compile Include="Helpers\SqlParametersHelper.cs" />
-    <Compile Include="IAutherRepo.cs" />
-    <Compile Include="IBookRepo.cs" />
-    <Compile Include="ILibraryRepo.cs" />
+    <Compile Include="Interfaces\IAutherRepo.cs" />
+    <Compile Include="Interfaces\IBookRepo.cs" />
+    <Compile Include="Interfaces\IRepo.cs" />
+    <Compile Include="Interfaces\IUserRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Library.Models\Library.Models.csproj">
