@@ -13,7 +13,8 @@ namespace Library.DAL
     {
         private ADOHelper dbHelper;
         private const string sp_GetBorrowOrdersByBookId = "GetBorrowOrdersByBookId";
-        private const string sp_BorrowBook = "BorrowBook";        
+        private const string sp_BorrowBook = "BorrowBook";
+        private const string sp_ReturnBook = "ReturnBook";
 
         public BorrowOrderRepo(string connectionString)
         {
@@ -30,7 +31,19 @@ namespace Library.DAL
             var result = dbHelper.ExecuteProcedure(sp_BorrowBook, sqlParameters);
 
             return result;
-        }      
+        }
+
+        public bool ReturnBook(int bookId, int userId)
+        {
+            var sqlParameters = new SqlParametersHelper()
+              .AddParameter("@bookId", bookId, SqlDbType.Int)
+              .AddParameter("@userId", userId, SqlDbType.Int)
+              .GetParameters();
+
+            var result = dbHelper.ExecuteProcedure(sp_ReturnBook, sqlParameters);
+
+            return result;
+        }
 
         public List<BorrowOrder> GetBorrowOrdersByBookId(int bookId)
         {
@@ -51,6 +64,6 @@ namespace Library.DAL
             }, sqlParameters);
 
             return borrowOrder;
-        }
+        }       
     }
 }

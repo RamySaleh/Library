@@ -11,6 +11,8 @@ namespace Library.DAL
     {
         bool BorrowBook(int bookId, int userId);
 
+        bool ReturnBook(int bookId, int userId);
+
         List<BorrowOrder> GetBorrowOrdersByBookId(int bookId);
     }
 }

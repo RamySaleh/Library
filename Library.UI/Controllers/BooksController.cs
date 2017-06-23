@@ -98,6 +98,19 @@ namespace Library.UI.Controllers
             return null;
         }
 
+        public ActionResult ReturnBook(int bookId)
+        {
+            var currentUser = (User)Session["User"];
+            var result = new BAL.BookBAL(GlobalValues.ConnectionString).ReturnBook(bookId, currentUser.Id);
+
+            if (result)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return null;
+        }
+
         private string ConcatAuthersNames(List<Auther> authers)
         {
             var authersConcatenated = string.Join(" , ", authers.Select(auther => auther.Name));
