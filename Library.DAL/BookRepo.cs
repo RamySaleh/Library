@@ -21,10 +21,10 @@ namespace Library.DAL
             dbHelper = new ADOHelper(connectionString);
             autherRepo = new AutherRepo(connectionString);
         }
-        public List<Book> GetAll()
+        public List<Book> GetAllBook()
         {
-            var books = new List<Book>();
-            
+            var books = new List<Book>();           
+
             dbHelper.ExecuteProcedure(sp_GetAllBooks, (reader) =>
             {
                 while (reader.Read())
@@ -37,8 +37,8 @@ namespace Library.DAL
                     });
                 }
             });
-            
+
             return books;
-        }     
+        }
     }
 }

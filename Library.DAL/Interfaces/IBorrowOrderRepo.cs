@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Library.DAL
 {
-    public interface IUserRepo : IRepo<User>
+    public interface IBorrowOrderRepo : IRepo<BorrowOrder>
     {
-        bool Register(User entity);
+        bool AddBorrowOrder(Book book, User user);
 
-        User Login(User user);
+        List<BorrowOrder> GetBorrowOrdersByBookId(int bookId);
     }
 }

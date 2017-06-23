@@ -12,7 +12,7 @@ namespace Library.UI.Controllers
     public class UserController : Controller
     {
         // GET: User
-        public ActionResult Index()
+        public ActionResult Register()
         {
             return View();
         }
@@ -26,10 +26,31 @@ namespace Library.UI.Controllers
 
             if (result)
             {
+                return RedirectToAction("Login");
+            }
+
+            return View();
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(User user)
+        {
+            var userBAL = new UserBAL(GlobalValues.ConnectionString);
+
+            var loggedInUser = userBAL.Login(user);
+
+            if (loggedInUser != null)
+            {
+                Session["User"] = loggedInUser;
                 return RedirectToAction("Index", "Books");
             }
 
-            return RedirectToAction("Index");
+            return View();
         }
     }
 }

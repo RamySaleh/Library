@@ -12,11 +12,11 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            Book
+        <th>            
+            @Html.ActionLink("Book Title", "Index", new { orderBy = "Book Title" })
         </th>
         <th>
-            Authers
+            @Html.ActionLink("Authers", "Index", new { orderBy = "Auther" })
         </th>
         <th></th>
     </tr>
@@ -36,5 +36,6 @@
         </td>
     </tr>
 }
-
 </table>
+
+<span>Ordered by : @ViewBag.OrderBy @ViewBag.OrderDirection</span>

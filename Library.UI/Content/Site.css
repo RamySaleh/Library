@@ -22,3 +22,10 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.welcome {
+  float: left;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+}

@@ -11,6 +11,6 @@ namespace Library.UI.Models
 
         public string BookName { get; set; }
 
-        public string Authers { get; set; }
+        public string Authers { get; set; }        
     }
 }

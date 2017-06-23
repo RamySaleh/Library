@@ -42,10 +42,12 @@
   <ItemGroup>
     <Compile Include="AutherRepo.cs" />
     <Compile Include="BookRepo.cs" />
+    <Compile Include="BorrowOrderRepo.cs" />
     <Compile Include="Helpers\ADOHelper.cs" />
     <Compile Include="Helpers\SqlParametersHelper.cs" />
     <Compile Include="Interfaces\IAutherRepo.cs" />
     <Compile Include="Interfaces\IBookRepo.cs" />
+    <Compile Include="Interfaces\IBorrowOrderRepo.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
     <Compile Include="Interfaces\IUserRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,28 +13,47 @@ namespace Library.DAL
     {
         private ADOHelper dbHelper;        
         private const string sp_RegisterUser = "RegisterUser";
+        private const string sp_LoginUser = "LoginUser";
 
         public UserRepo(string connectionString)
         {
             dbHelper = new ADOHelper(connectionString);            
-        }
+        }       
 
-        public List<User> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Register(User entity)
+        public bool Register(User user)
         {
             var authers = new List<Auther>();
             var sqlParameters = new SqlParametersHelper()
-                .AddParameter("@userName", entity.Name, SqlDbType.NVarChar)
-                .AddParameter("@email", entity.Email, SqlDbType.NVarChar)
+                .AddParameter("@userName", user.Name, SqlDbType.NVarChar)
+                .AddParameter("@email", user.Email, SqlDbType.NVarChar)
                 .GetParameters();
 
             var result = dbHelper.ExecuteProcedure(sp_RegisterUser, sqlParameters);
 
             return result;
+        }
+
+        public User Login(User user)
+        {
+            var loggedInUser = (User)null;
+            var sqlParameters = new SqlParametersHelper()             
+               .AddParameter("@email", user.Email, SqlDbType.NVarChar)
+               .GetParameters();
+
+            dbHelper.ExecuteProcedure(sp_LoginUser, (reader) =>
+            {
+                while (reader.Read())
+                {
+                    loggedInUser = new User
+                    {
+                        Id = (int)reader[0],
+                        Name = reader[1].ToString(),
+                        Email = reader[2].ToString()
+                    };
+                }
+            }, sqlParameters);
+
+            return loggedInUser;
         }
     }
 }

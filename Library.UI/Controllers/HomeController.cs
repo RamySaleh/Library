@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.UI.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,12 @@ namespace Library.UI.Controllers
     {
         // GET: Home
         public ActionResult Index()
-        {            
+        {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
             return View();
         }
     }

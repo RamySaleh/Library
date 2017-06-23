@@ -15,7 +15,7 @@ namespace Library.Tests
             var connectionString = ConfigurationManager.ConnectionStrings["LibraryDBConnection"].ToString();
             var bookRepo = new BookRepo(connectionString);
 
-            var books = bookRepo.GetAll();
+            var books = bookRepo.GetAllBook();
 
             Assert.IsTrue(books != null && books.Count() > 0);
         }

@@ -17,7 +17,7 @@ namespace Library.BAL
         }
         public List<Book> GetAllBooks()
         {
-            return new BookRepo(connectionString).GetAll();
+            return new BookRepo(connectionString).GetAllBook();
         }
     }
 }

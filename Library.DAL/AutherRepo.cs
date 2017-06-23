@@ -17,12 +17,7 @@ namespace Library.DAL
         public AutherRepo(string connectionString)
         {
             dbHelper = new ADOHelper(connectionString);
-        }
-
-        public List<Auther> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        }       
 
         public List<Auther> GetAuthersByBookId(int bookId)
         {

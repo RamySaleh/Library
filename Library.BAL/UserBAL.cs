@@ -20,5 +20,11 @@ namespace Library.BAL
             var userRepo = new UserRepo(connectionString);
             return userRepo.Register(user);
         }
+
+        public User Login(User user)
+        {
+            var userRepo = new UserRepo(connectionString);
+            return userRepo.Login(user);
+        }
     }
 }
