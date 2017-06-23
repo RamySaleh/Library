@@ -14,6 +14,7 @@ namespace Library.DAL
         private ADOHelper dbHelper;        
         private const string sp_RegisterUser = "RegisterUser";
         private const string sp_LoginUser = "LoginUser";
+        private const string sp_GetUserById = "GetUserById";
 
         public UserRepo(string connectionString)
         {
@@ -54,6 +55,29 @@ namespace Library.DAL
             }, sqlParameters);
 
             return loggedInUser;
+        }
+
+        public User GetUserById(int userId)
+        {
+            var user = (User)null;
+            var sqlParameters = new SqlParametersHelper()
+               .AddParameter("@userId", userId, SqlDbType.Int)
+               .GetParameters();
+
+            dbHelper.ExecuteProcedure(sp_GetUserById, (reader) =>
+            {
+                while (reader.Read())
+                {
+                    user = new User
+                    {
+                        Id = (int)reader[0],
+                        Name = reader[1].ToString(),
+                        Email = reader[2].ToString()
+                    };
+                }
+            }, sqlParameters);
+
+            return user;
         }
     }
 }

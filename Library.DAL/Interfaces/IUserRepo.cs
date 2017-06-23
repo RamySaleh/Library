@@ -9,6 +9,8 @@ namespace Library.DAL
 {
     public interface IUserRepo : IRepo<User>
     {
+        User GetUserById(int userId);
+
         bool Register(User entity);
 
         User Login(User user);

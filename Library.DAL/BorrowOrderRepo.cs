@@ -12,6 +12,9 @@ namespace Library.DAL
     public class BorrowOrderRepo : IBorrowOrderRepo
     {
         private ADOHelper dbHelper;
+        private IBookRepo bookRepo;
+        private IUserRepo userRepo;
+
         private const string sp_GetBorrowOrdersByBookId = "GetBorrowOrdersByBookId";
         private const string sp_BorrowBook = "BorrowBook";
         private const string sp_ReturnBook = "ReturnBook";
@@ -19,6 +22,8 @@ namespace Library.DAL
         public BorrowOrderRepo(string connectionString)
         {
             dbHelper = new ADOHelper(connectionString);
+            bookRepo = new BookRepo(connectionString);
+            userRepo = new UserRepo(connectionString);
         }
 
         public bool BorrowBook(int bookId, int userId)
@@ -58,7 +63,10 @@ namespace Library.DAL
                 {
                     borrowOrder.Add(new BorrowOrder
                     {
-                        
+                        Reader = userRepo.GetUserById((int)reader[0]),
+                        Book = bookRepo.GetBookById(bookId),
+                        ActionTime = (DateTime)reader[2],
+                        ActionType = reader[3].ToString()
                     });
                 }
             }, sqlParameters);

@@ -135,6 +135,7 @@
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Books\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Helpers\GlobalValues.cs" />
     <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\BorrowOrderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

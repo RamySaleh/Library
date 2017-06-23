@@ -111,6 +111,25 @@ namespace Library.UI.Controllers
             return null;
         }
 
+        public ActionResult History(int bookId)
+        {
+            var borrowOrders = new BAL.BookBAL(GlobalValues.ConnectionString).GetBookHistory(bookId);
+
+            var borrowOrdersModels = new List<BorrowOrderModel>();
+            
+            foreach (var borrowOrder in borrowOrders)
+            {
+                borrowOrdersModels.Add(new BorrowOrderModel
+                {
+                   BookTitle = borrowOrder.Book.Name,
+                   ReaderName = borrowOrder.Reader.Name,
+                   ActionType = borrowOrder.ActionType,
+                   ActionTime = borrowOrder.ActionTime.ToLocalTime().ToString()
+                });
+            }
+            return View(borrowOrdersModels);
+        }
+
         private string ConcatAuthersNames(List<Auther> authers)
         {
             var authersConcatenated = string.Join(" , ", authers.Select(auther => auther.Name));

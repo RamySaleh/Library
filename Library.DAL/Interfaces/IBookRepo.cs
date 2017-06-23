@@ -10,5 +10,6 @@ namespace Library.DAL
     public interface IBookRepo : IRepo<Book>
     {
         List<Book> GetAllBook();
+        Book GetBookById(int bookId);
     }
 }

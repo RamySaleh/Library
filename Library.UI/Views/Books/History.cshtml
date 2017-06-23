@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Library.UI.Models.BorrowOrderModel>
+
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>History</h2>
+
+<p>
+   @ViewBag.BookTitle
+</p>
+<table class="table">
+    <tr>      
+        <th>
+            @Html.DisplayNameFor(model => model.ReaderName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>       
+        <td>
+            @Html.DisplayFor(modelItem => item.ReaderName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActionType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActionTime)
+        </td>       
+    </tr>
+}
+
+</table>

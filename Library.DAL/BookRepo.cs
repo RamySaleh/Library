@@ -13,8 +13,9 @@ namespace Library.DAL
     public class BookRepo : IBookRepo
     {
         private ADOHelper dbHelper;
-        private AutherRepo autherRepo;
+        private IAutherRepo autherRepo;
         private const string sp_GetAllBooks = "GetAllBooks";
+        private const string sp_GetBookById = "GetBookById";
 
         public BookRepo(string connectionString)
         {
@@ -40,6 +41,30 @@ namespace Library.DAL
             });
 
             return books;
+        }
+
+        public Book GetBookById(int bookId)
+        {
+            var book = (Book)null;
+            var sqlParameters = new SqlParametersHelper()
+             .AddParameter("@bookId", bookId, SqlDbType.Int)
+             .GetParameters();
+
+            dbHelper.ExecuteProcedure(sp_GetBookById, (reader) =>
+            {
+                while (reader.Read())
+                {
+                    book = new Book
+                    {
+                        Id = (int)reader[0],
+                        Name = reader[1].ToString(),
+                        IsAvailable = bool.Parse(reader[2].ToString()),
+                        Authers = autherRepo.GetAuthersByBookId((int)reader[0])
+                    };
+                }
+            }, sqlParameters);
+
+            return book;
         }
     }
 }
