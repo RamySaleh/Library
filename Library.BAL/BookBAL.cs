@@ -15,9 +15,9 @@ namespace Library.BAL
         {
             this.connectionString = connectionString;
         }
-        public List<Book> GetAllBooks()
+        public List<Book> GetAllBooks(int bookFilter, int userId)
         {
-            return new BookRepo(connectionString).GetAllBook();
+            return new BookRepo(connectionString).GetAllBook(bookFilter, userId);
         }
 
         public bool BorrowBook(int bookId, int userId)

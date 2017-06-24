@@ -22,9 +22,13 @@ namespace Library.DAL
             dbHelper = new ADOHelper(connectionString);
             autherRepo = new AutherRepo(connectionString);
         }
-        public List<Book> GetAllBook()
+        public List<Book> GetAllBook(int bookFilter, int userId)
         {
-            var books = new List<Book>();           
+            var books = new List<Book>();
+            var sqlParameters = new SqlParametersHelper()
+            .AddParameter("@bookFilter", bookFilter, SqlDbType.Int)
+            .AddParameter("@userId", userId, SqlDbType.Int)
+            .GetParameters();
 
             dbHelper.ExecuteProcedure(sp_GetAllBooks, (reader) =>
             {
@@ -39,7 +43,7 @@ namespace Library.DAL
                         CurrentReaderId = reader[3] != DBNull.Value ? (int)reader[3] : -1
                     });
                 }
-            });
+            }, sqlParameters);
 
             return books;
         }

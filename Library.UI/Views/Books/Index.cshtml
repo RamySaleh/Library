@@ -9,14 +9,22 @@
 
 <p>
     @*@Html.ActionLink("Create New", "Create")*@
+    @*<select>
+        <option selected="selected">All books</option>
+        <option>Available</option>
+        <option>My books</option>
+    </select>*@
+    @Html.ActionLink("All books", "Index", new { orderBy = ViewBag.OrderBy, sort = false, bookFilter = 1 }) | 
+    @Html.ActionLink("Available", "Index", new { orderBy = ViewBag.OrderBy, sort = false, bookFilter = 2 }) |
+    @Html.ActionLink("My books", "Index", new { orderBy = ViewBag.OrderBy, sort = false, bookFilter = 3 })
 </p>
 <table class="table">
     <tr>
         <th>            
-            @Html.ActionLink("Book Title", "Index", new { orderBy = "Book Title" })
+            @Html.ActionLink("Book Title", "Index", new { orderBy = "Book Title", sort = true, bookFilter = ViewBag.bookFilter })
         </th>
         <th>
-            @Html.ActionLink("Authers", "Index", new { orderBy = "Auther" })
+            @Html.ActionLink("Authers", "Index", new { orderBy = "Auther", sort = true, bookFilter = ViewBag.bookFilter })            
         </th>
         <th>
             Available
@@ -55,4 +63,4 @@
 }
 </table>
 
-<span>Ordered by : @ViewBag.OrderBy (@ViewBag.OrderDirection)</span>
+<span>Showing : @ViewBag.BookFilterText , Ordered by : @ViewBag.OrderBy (@ViewBag.OrderDirection)</span>

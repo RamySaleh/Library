@@ -9,7 +9,7 @@ namespace Library.DAL
 {
     public interface IBookRepo : IRepo<Book>
     {
-        List<Book> GetAllBook();
+        List<Book> GetAllBook(int bookFilter, int userId);
         Book GetBookById(int bookId);
     }
 }

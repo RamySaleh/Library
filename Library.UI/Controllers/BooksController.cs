@@ -17,7 +17,7 @@ namespace Library.UI.Controllers
 
         #region Actions
 
-        public ActionResult Index(string orderBy)
+        public ActionResult Index(string orderBy, bool sort = true, int bookFilter = 1)
         {
             if (Session["User"] == null)
             {
@@ -26,7 +26,9 @@ namespace Library.UI.Controllers
 
             var currentUser = (User)Session["User"];
 
-            var books = new BAL.BookBAL(GlobalValues.ConnectionString).GetAllBooks();
+            SetBookFilterInViewbag(bookFilter);            
+
+            var books = new BAL.BookBAL(GlobalValues.ConnectionString).GetAllBooks(bookFilter, currentUser.Id);
 
             var booksModels = MapBooksToViewModels(books, currentUser);
 
@@ -38,7 +40,7 @@ namespace Library.UI.Controllers
                 orderAscending = true;
             }
 
-            booksModels = SortBooks(booksModels, orderBy);
+            booksModels = SortBooks(booksModels, orderBy, sort);
 
             return View(booksModels);
         }        
@@ -108,18 +110,21 @@ namespace Library.UI.Controllers
             return booksModels;
         }
 
-        private List<BookModel> SortBooks(List<BookModel> booksModels, string orderBy)
+        private List<BookModel> SortBooks(List<BookModel> booksModels, string orderBy, bool sort)
         {
-            if (orderedBy != orderBy)
+            if (sort)
             {
-                orderAscending = true;
-            }
-            else
-            {
-                orderAscending = !orderAscending;
-            }
+                if (orderedBy != orderBy)
+                {
+                    orderAscending = true;
+                }
+                else
+                {
+                    orderAscending = !orderAscending;
+                }
 
-            orderedBy = orderBy;
+                orderedBy = orderBy;
+            }          
 
             // Set the order in viewbag to be viewed from the view
             ViewBag.OrderBy = orderBy;
@@ -147,6 +152,25 @@ namespace Library.UI.Controllers
             var authersConcatenated = string.Join(" , ", authers.Select(auther => auther.Name));
                        
             return authersConcatenated;
+        }
+
+        private void SetBookFilterInViewbag(int bookFilter)
+        {
+            ViewBag.bookFilter = bookFilter;
+            switch (bookFilter)
+            {
+                case 1:
+                    ViewBag.BookFilterText = "All Books";
+                    break;
+                case 2:
+                    ViewBag.BookFilterText = "Available Books";
+                    break;
+                case 3:
+                    ViewBag.BookFilterText = "My Books";
+                    break;
+                default:
+                    break;
+            }
         }
         #endregion
     }
