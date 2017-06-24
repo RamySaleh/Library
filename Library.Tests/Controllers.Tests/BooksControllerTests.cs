@@ -17,7 +17,7 @@ namespace Library.Tests.Controllers.Tests
     [TestClass]
     public class BooksControllerTests
     {
-        static List<Book> fakeBooksList;
+        static List<Book> fakeBooksList;        
         static User fakeUser;
 
         [ClassInitialize]
@@ -195,7 +195,89 @@ namespace Library.Tests.Controllers.Tests
             var booksModels = result.Model as List<BookModel>;
 
             // Assert
-            Assert.IsTrue(booksModels != null && booksModels.Count == 2);
+            Assert.IsTrue(booksModels != null && 
+                booksModels.Count == 2 && 
+                booksModels.All(b => b.TakenByCurrentUser));
+        }
+
+        [TestMethod]
+        public void IndexAction_ReturnAllBook_DefaultSort()
+        {
+            // Arrange
+            var bookBALMoq = new Mock<IBookBAL>();
+            bookBALMoq.Setup(x => x.GetAllBooks(1, fakeUser.Id)).Returns(() => fakeBooksList);
+
+            BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
+
+            // Act
+            var result = bookController.Index(null) as ViewResult;
+            var booksModels = result.Model as List<BookModel>;
+
+            // Assert
+            Assert.IsTrue(booksModels != null && 
+                booksModels.SequenceEqual(booksModels.OrderBy(b => b.BookName)));
+        }
+
+        [TestMethod]
+        public void SortBooks_BookTitle_Asc()
+        {
+            // Arrange
+            BooksController bookController = CreateControllerWithFakeUser(null);
+            var booksModels = bookController.MapBooksToViewModels(fakeBooksList, fakeUser);
+
+            // Act            
+            var sortedModels = bookController.SortBooks(booksModels, BooksController.SortByBookTitle, true);
+
+            // Assert
+            Assert.IsTrue(sortedModels != null &&
+                sortedModels.SequenceEqual(booksModels.OrderBy(b => b.BookName)));
+        }
+
+        [TestMethod]
+        public void SortBooks_BookTitle_Desc()
+        {
+            // Arrange
+            BooksController bookController = CreateControllerWithFakeUser(null);
+            var booksModels = bookController.MapBooksToViewModels(fakeBooksList, fakeUser);
+
+            // Act - to sort desc i have to sort with the same column twice
+            var sortedModels = bookController.SortBooks(booksModels, BooksController.SortByBookTitle, true);
+            sortedModels = bookController.SortBooks(booksModels, BooksController.SortByBookTitle, true);
+
+            // Assert
+            Assert.IsTrue(sortedModels != null &&
+                sortedModels.SequenceEqual(booksModels.OrderByDescending(b => b.BookName)));
+        }
+
+        [TestMethod]
+        public void SortBooks_Auther_Asc()
+        {
+            // Arrange
+            BooksController bookController = CreateControllerWithFakeUser(null);
+            var booksModels = bookController.MapBooksToViewModels(fakeBooksList, fakeUser);
+
+            // Act
+            var sortedModels = bookController.SortBooks(booksModels, BooksController.SortByAuther, true);
+
+            // Assert
+            Assert.IsTrue(sortedModels != null &&
+                sortedModels.SequenceEqual(booksModels.OrderBy(b => b.Authers)));
+        }
+
+        [TestMethod]
+        public void SortBooks_Auther_Desc()
+        {
+            // Arrange
+            BooksController bookController = CreateControllerWithFakeUser(null);
+            var booksModels = bookController.MapBooksToViewModels(fakeBooksList, fakeUser);
+
+            // Act - to sort desc i have to sort with the same column twice
+            var sortedModels = bookController.SortBooks(booksModels, BooksController.SortByAuther, true);
+            sortedModels = bookController.SortBooks(booksModels, BooksController.SortByAuther, true);
+
+            // Assert
+            Assert.IsTrue(sortedModels != null &&
+                sortedModels.SequenceEqual(booksModels.OrderByDescending(b => b.Authers)));
         }
     }
 }

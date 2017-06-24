@@ -20,10 +20,10 @@
 <table class="table">
     <tr>
         <th>            
-            @Html.ActionLink("Book Title", "Index", new { orderBy = "Book Title", sort = true, bookFilter = ViewBag.bookFilter })
+            @Html.ActionLink("Book Title", "Index", new { orderBy = BooksController.SortByBookTitle, sort = true, bookFilter = ViewBag.bookFilter })
         </th>
         <th>
-            @Html.ActionLink("Authers", "Index", new { orderBy = "Auther", sort = true, bookFilter = ViewBag.bookFilter })            
+            @Html.ActionLink("Authers", "Index", new { orderBy = BooksController.SortByAuther, sort = true, bookFilter = ViewBag.bookFilter })            
         </th>
         <th>
             Available

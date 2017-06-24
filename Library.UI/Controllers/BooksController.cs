@@ -13,6 +13,9 @@ namespace Library.UI.Controllers
 {
     public class BooksController : Controller
     {
+        public const string SortByBookTitle = "Book Title";
+        public const string SortByAuther = "Auther";
+
         static string orderedBy;
         static bool orderAscending;
         IBookBAL bookBAL;
@@ -47,7 +50,7 @@ namespace Library.UI.Controllers
             // Appy default order for the first time
             if (string.IsNullOrWhiteSpace(orderBy))
             {
-                orderBy = "Book Title";
+                orderBy = SortByBookTitle;
                 orderedBy = null;
                 orderAscending = true;
             }
@@ -105,7 +108,7 @@ namespace Library.UI.Controllers
         #endregion
 
         #region Private methods
-        private List<BookModel> MapBooksToViewModels(List<Book> books, User user)
+        public List<BookModel> MapBooksToViewModels(List<Book> books, User user)
         {
             var booksModels = new List<BookModel>();
             foreach (var book in books)
@@ -122,7 +125,7 @@ namespace Library.UI.Controllers
             return booksModels;
         }
 
-        private List<BookModel> SortBooks(List<BookModel> booksModels, string orderBy, bool sort)
+        public List<BookModel> SortBooks(List<BookModel> booksModels, string orderBy, bool sort)
         {
             if (sort)
             {
@@ -144,12 +147,12 @@ namespace Library.UI.Controllers
 
             switch (orderBy)
             {
-                case "Book Title":
+                case SortByBookTitle:
                     booksModels = orderAscending ?
                         booksModels.OrderBy(b => b.BookName).ToList() :
                         booksModels.OrderByDescending(b => b.BookName).ToList();
                     break;
-                case "Auther":
+                case SortByAuther:
                     booksModels = orderAscending ?
                         booksModels.OrderBy(b => b.Authers).ToList() :
                         booksModels.OrderByDescending(b => b.Authers).ToList();
