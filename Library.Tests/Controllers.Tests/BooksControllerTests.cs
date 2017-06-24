@@ -107,7 +107,7 @@ namespace Library.Tests.Controllers.Tests
             };
         }
 
-        private static BooksController CreateControllerWithFakeUser(IBookBAL bookBAL)
+        private static BooksController CreateControllerWithFakeUser(IBookService bookBAL)
         {
             var controllerContext = new Mock<ControllerContext>();
             controllerContext.SetupGet(p => p.HttpContext.Session["User"]).Returns(fakeUser);
@@ -121,7 +121,7 @@ namespace Library.Tests.Controllers.Tests
         public void IndexAction_LoggedIn_ReturnsView()
         {
             // Arrange
-            var bookBALMoq = new Mock<IBookBAL>();
+            var bookBALMoq = new Mock<IBookService>();
             bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
@@ -137,7 +137,7 @@ namespace Library.Tests.Controllers.Tests
         public void IndexAction_Filter_ReturnAllBook()
         {
             // Arrange
-            var bookBALMoq = new Mock<IBookBAL>();
+            var bookBALMoq = new Mock<IBookService>();
             bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
@@ -154,7 +154,7 @@ namespace Library.Tests.Controllers.Tests
         public void IndexAction_Filter_ReturnAvailableBooks()
         {
             // Arrange
-            var bookBALMoq = new Mock<IBookBAL>();
+            var bookBALMoq = new Mock<IBookService>();
             bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList.Where(b => b.IsAvailable).ToList());
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
@@ -171,7 +171,7 @@ namespace Library.Tests.Controllers.Tests
         public void IndexAction_Filter_ReturnBooksTakenByUser()
         {
             // Arrange
-            var bookBALMoq = new Mock<IBookBAL>();
+            var bookBALMoq = new Mock<IBookService>();
             bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList.Where(b => b.CurrentReaderId == fakeUser.Id).ToList());
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
@@ -190,7 +190,7 @@ namespace Library.Tests.Controllers.Tests
         public void IndexAction_ReturnAllBook_DefaultSort()
         {
             // Arrange
-            var bookBALMoq = new Mock<IBookBAL>();
+            var bookBALMoq = new Mock<IBookService>();
             bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
@@ -270,7 +270,7 @@ namespace Library.Tests.Controllers.Tests
         public void BorrowBookAction_BookBALIsCalled()
         {
             // Arrange
-            var bookBALMoq = new Mock<IBookBAL>();
+            var bookBALMoq = new Mock<IBookService>();
             bookBALMoq.Setup(x => x.BorrowBook(It.IsAny<int>(), fakeUser.Id)).Returns(() => true);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
@@ -287,7 +287,7 @@ namespace Library.Tests.Controllers.Tests
         public void ReturnBookAction_BookBALIsCalled()
         {
             // Arrange
-            var bookBALMoq = new Mock<IBookBAL>();
+            var bookBALMoq = new Mock<IBookService>();
             bookBALMoq.Setup(x => x.ReturnBook(It.IsAny<int>(), fakeUser.Id)).Returns(() => true);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);

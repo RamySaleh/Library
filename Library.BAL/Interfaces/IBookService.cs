@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library.BAL
 {
-    public interface IBookBAL
+    public interface IBookService
     {
         List<Book> GetAllBooks(int bookFilter, int userId);
 

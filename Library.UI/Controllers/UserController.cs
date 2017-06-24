@@ -24,7 +24,7 @@ namespace Library.UI.Controllers
         {
             try
             {
-                var userBAL = new UserBAL(GlobalValues.ConnectionString);
+                var userBAL = new UserService(GlobalValues.ConnectionString);
 
                 var result = userBAL.RegisterUser(user);
 
@@ -60,7 +60,7 @@ namespace Library.UI.Controllers
         {
             try
             {
-                var userBAL = new UserBAL(GlobalValues.ConnectionString);
+                var userBAL = new UserService(GlobalValues.ConnectionString);
 
                 var loggedInUser = userBAL.Login(user);
 

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Library.BAL
 {
-    public class BookBAL : IBookBAL
+    public class BookService : IBookService
     {
         string connectionString;
-        public BookBAL(string connectionString)
+        public BookService(string connectionString)
         {
             this.connectionString = connectionString;
         }

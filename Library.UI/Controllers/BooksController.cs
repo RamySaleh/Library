@@ -23,14 +23,14 @@ namespace Library.UI.Controllers
 
         static string orderedBy;
         static bool orderAscending;
-        IBookBAL bookBAL;
+        IBookService bookBAL;
 
         public BooksController()
         {
-            bookBAL = new BookBAL(GlobalValues.ConnectionString);
+            bookBAL = new BookService(GlobalValues.ConnectionString);
         }
 
-        public BooksController(IBookBAL bookBAL)
+        public BooksController(IBookService bookBAL)
         {
             this.bookBAL = bookBAL;
         }

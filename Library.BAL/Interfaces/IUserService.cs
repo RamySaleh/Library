@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library.BAL
 {
-    public interface IUserBAL
+    public interface IUserService
     {
         bool RegisterUser(User user);
 
