@@ -72,7 +72,7 @@ namespace Library.UI.Controllers
             try
             {
                 var currentUser = (User)Session["User"];
-                var result = new BAL.BookBAL(GlobalValues.ConnectionString).BorrowBook(bookId, currentUser.Id);
+                var result = bookBAL.BorrowBook(bookId, currentUser.Id);
 
                 if (result)
                 {
@@ -93,7 +93,7 @@ namespace Library.UI.Controllers
             try
             {
                 var currentUser = (User)Session["User"];
-                var result = new BAL.BookBAL(GlobalValues.ConnectionString).ReturnBook(bookId, currentUser.Id);
+                var result = bookBAL.ReturnBook(bookId, currentUser.Id);
 
                 if (result)
                 {
@@ -113,7 +113,7 @@ namespace Library.UI.Controllers
         {
             try
             {
-                var borrowOrders = new BAL.BookBAL(GlobalValues.ConnectionString).GetBookHistory(bookId);
+                var borrowOrders = bookBAL.GetBookHistory(bookId);
 
                 var borrowOrdersModels = new List<BorrowOrderModel>();
 

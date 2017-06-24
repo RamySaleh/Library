@@ -122,7 +122,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(1, fakeUser.Id)).Returns(() => fakeBooksList);
+            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
@@ -138,7 +138,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(1, fakeUser.Id)).Returns(() => fakeBooksList);
+            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
@@ -155,7 +155,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(2, fakeUser.Id)).Returns(() => fakeBooksList.Where(b => b.IsAvailable).ToList());
+            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList.Where(b => b.IsAvailable).ToList());
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
@@ -172,7 +172,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(3, fakeUser.Id)).Returns(() => fakeBooksList.Where(b => b.CurrentReaderId == fakeUser.Id).ToList());
+            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList.Where(b => b.CurrentReaderId == fakeUser.Id).ToList());
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
@@ -191,7 +191,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(1, fakeUser.Id)).Returns(() => fakeBooksList);
+            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
@@ -267,20 +267,37 @@ namespace Library.Tests.Controllers.Tests
         }
 
         [TestMethod]
-        public void BorrowBook()
+        public void BorrowBookAction_BookBALIsCalled()
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(1, fakeUser.Id)).Returns(() => fakeBooksList);
+            bookBALMoq.Setup(x => x.BorrowBook(It.IsAny<int>(), fakeUser.Id)).Returns(() => true);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
             // Act
-            var result = bookController.Index(null) as ViewResult;
-            var booksModels = result.Model as List<BookModel>;
+            var result = bookController.BorrowBook(1) as RedirectToRouteResult;
 
             // Assert
-            Assert.IsTrue(booksModels != null && booksModels.Count == 5);
+            bookBALMoq.Verify(x => x.BorrowBook(It.IsAny<int>(), fakeUser.Id), Times.Once);
+            Assert.IsTrue(result != null);
+        }
+
+        [TestMethod]
+        public void ReturnBookAction_BookBALIsCalled()
+        {
+            // Arrange
+            var bookBALMoq = new Mock<IBookBAL>();
+            bookBALMoq.Setup(x => x.ReturnBook(It.IsAny<int>(), fakeUser.Id)).Returns(() => true);
+
+            BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
+
+            // Act
+            var result = bookController.ReturnBook(1) as RedirectToRouteResult;
+
+            // Assert
+            bookBALMoq.Verify(x => x.ReturnBook(It.IsAny<int>(), fakeUser.Id), Times.Once);
+            Assert.IsTrue(result != null);
         }
     }
 }
