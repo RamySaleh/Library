@@ -14,7 +14,9 @@ namespace Library.UI.Controllers
     {
         static string orderedBy;
         static bool orderAscending;
-        // GET: Books
+
+        #region Actions
+
         public ActionResult Index(string orderBy)
         {
             if (Session["User"] == null)
@@ -22,21 +24,11 @@ namespace Library.UI.Controllers
                 return RedirectToAction("Login", "User");
             }
 
+            var currentUser = (User)Session["User"];
+
             var books = new BAL.BookBAL(GlobalValues.ConnectionString).GetAllBooks();
 
-            var booksModels = new List<BookModel>();
-
-            // Map the books to the view models
-            foreach (var book in books)
-            {
-                booksModels.Add(new BookModel
-                {
-                    BookId = book.Id,
-                    BookName = book.Name,
-                    Authers = ConcatAuthersNames(book.Authers),
-                    IsAvailable = book.IsAvailable ? "Yes" : "No"
-                });
-            }
+            var booksModels = MapBooksToViewModels(books, currentUser);
 
             // Appy default order for the first time
             if (string.IsNullOrWhiteSpace(orderBy))
@@ -49,42 +41,8 @@ namespace Library.UI.Controllers
             booksModels = SortBooks(booksModels, orderBy);
 
             return View(booksModels);
-        }
+        }        
 
-        private List<BookModel> SortBooks(List<BookModel> booksModels, string orderBy)
-        {
-            if (orderedBy != orderBy)
-            {
-                orderAscending = true;
-            }
-            else
-            {
-                orderAscending = !orderAscending;
-            }
-
-            orderedBy = orderBy;
-
-            // Set the order in viewbag to be viewed from the view
-            ViewBag.OrderBy = orderBy;
-            ViewBag.OrderDirection = orderAscending ? "Ascending" : "Descending";
-
-            switch (orderBy)
-            {
-                case "Book Title":
-                    booksModels = orderAscending ?
-                        booksModels.OrderBy(b => b.BookName).ToList() :
-                        booksModels.OrderByDescending(b => b.BookName).ToList();
-                    break;
-                case "Auther":
-                    booksModels = orderAscending ?
-                        booksModels.OrderBy(b => b.Authers).ToList() :
-                        booksModels.OrderByDescending(b => b.Authers).ToList();
-                    break;
-            }
-
-            return booksModels;
-        }
-        
         public ActionResult BorrowBook(int bookId)
         {
             var currentUser = (User)Session["User"];
@@ -130,11 +88,66 @@ namespace Library.UI.Controllers
             return View(borrowOrdersModels);
         }
 
+        #endregion
+
+        #region Private methods
+        private List<BookModel> MapBooksToViewModels(List<Book> books, User user)
+        {
+            var booksModels = new List<BookModel>();
+            foreach (var book in books)
+            {
+                booksModels.Add(new BookModel
+                {
+                    BookId = book.Id,
+                    BookName = book.Name,
+                    Authers = ConcatAuthersNames(book.Authers),
+                    IsAvailable = book.IsAvailable ? "Yes" : "No",
+                    TakenByCurrentUser = book.CurrentReaderId == user.Id
+                });
+            }
+            return booksModels;
+        }
+
+        private List<BookModel> SortBooks(List<BookModel> booksModels, string orderBy)
+        {
+            if (orderedBy != orderBy)
+            {
+                orderAscending = true;
+            }
+            else
+            {
+                orderAscending = !orderAscending;
+            }
+
+            orderedBy = orderBy;
+
+            // Set the order in viewbag to be viewed from the view
+            ViewBag.OrderBy = orderBy;
+            ViewBag.OrderDirection = orderAscending ? "Ascending" : "Descending";
+
+            switch (orderBy)
+            {
+                case "Book Title":
+                    booksModels = orderAscending ?
+                        booksModels.OrderBy(b => b.BookName).ToList() :
+                        booksModels.OrderByDescending(b => b.BookName).ToList();
+                    break;
+                case "Auther":
+                    booksModels = orderAscending ?
+                        booksModels.OrderBy(b => b.Authers).ToList() :
+                        booksModels.OrderByDescending(b => b.Authers).ToList();
+                    break;
+            }
+
+            return booksModels;
+        }
+
         private string ConcatAuthersNames(List<Auther> authers)
         {
             var authersConcatenated = string.Join(" , ", authers.Select(auther => auther.Name));
                        
             return authersConcatenated;
         }
+        #endregion
     }
 }

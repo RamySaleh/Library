@@ -35,7 +35,8 @@ namespace Library.DAL
                         Id = (int)reader[0],
                         Name = reader[1].ToString(),
                         IsAvailable = bool.Parse(reader[2].ToString()),
-                        Authers = autherRepo.GetAuthersByBookId((int)reader[0])
+                        Authers = autherRepo.GetAuthersByBookId((int)reader[0]),
+                        CurrentReaderId = reader[3] != DBNull.Value ? (int)reader[3] : -1
                     });
                 }
             });

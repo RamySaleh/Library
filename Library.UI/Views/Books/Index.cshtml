@@ -24,33 +24,35 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var book in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.BookName)
+            @Html.DisplayFor(modelItem => book.BookName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Authers)
+            @Html.DisplayFor(modelItem => book.Authers)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsAvailable)
+            @Html.DisplayFor(modelItem => book.IsAvailable)
         </td>
-        <td>
-            @{ 
-                if (item.IsAvailable == "Yes")
+        <td>        
+            @{
+                if (book.IsAvailable == "Yes")
                 {
-                    @Html.ActionLink("Borrow", "BorrowBook", new { bookId = item.BookId })
+                    @Html.ActionLink("Borrow", "BorrowBook", new { bookId = book.BookId }) @:|
                 }
                 else
                 {
-                    @Html.ActionLink("Return", "ReturnBook", new { bookId = item.BookId })
+                    if (book.TakenByCurrentUser)
+                    {
+                        @Html.ActionLink("Return", "ReturnBook", new { bookId = book.BookId }) @:|
+                    }
                 }
-            }
-            |
-            @Html.ActionLink("History", "History", new { bookId = item.BookId })
+            }      
+            @Html.ActionLink("History", "History", new { bookId = book.BookId })     
         </td>
     </tr>
 }
 </table>
 
-<span>Ordered by : @ViewBag.OrderBy @ViewBag.OrderDirection</span>
+<span>Ordered by : @ViewBag.OrderBy (@ViewBag.OrderDirection)</span>

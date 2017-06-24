@@ -14,5 +14,7 @@ namespace Library.UI.Models
         public string Authers { get; set; }
 
         public string IsAvailable { get; set; }
+
+        public bool TakenByCurrentUser { get; set; }
     }
 }

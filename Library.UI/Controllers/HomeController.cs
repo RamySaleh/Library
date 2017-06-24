@@ -19,5 +19,12 @@ namespace Library.UI.Controllers
 
             return View();
         }
+
+        public ActionResult LogOut()
+        {
+            Session["User"] = null;
+
+            return RedirectToAction("Login", "User");
+        }
     }
 }
