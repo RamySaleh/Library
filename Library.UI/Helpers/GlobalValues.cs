@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,6 @@ namespace Library.UI.Helpers
             {
                 return System.Configuration.ConfigurationManager.ConnectionStrings["LibraryDBConnection"].ConnectionString;
             }
-        }
+        }       
     }
 }

@@ -24,8 +24,13 @@ textarea {
 }
 
 .welcome {
-  float: left;
+  float: right;  
   padding: 15px 15px;
   font-size: 18px;
   line-height: 20px;
+  color:lightgray;
+}
+
+.fullWidth {
+    width: 100%;
 }
