@@ -19,6 +19,7 @@ namespace Library.UI.Controllers
     {
         public const string SortByBookTitle = "Book Title";
         public const string SortByAuther = "Auther";
+        public const int PageSize = 5;
 
         static string orderedBy;
         static bool orderAscending;
@@ -36,7 +37,7 @@ namespace Library.UI.Controllers
 
         #region Actions
 
-        public ActionResult Index(string orderBy, bool sort = true, int bookFilter = 1)
+        public ActionResult Index(string orderBy, bool sort = true, int bookFilter = 1, bool? next = null)
         {
             try
             {
@@ -44,7 +45,16 @@ namespace Library.UI.Controllers
 
                 SetBookFilterInViewbag(bookFilter);
 
-                var books = bookBAL.GetAllBooks(bookFilter, currentUser.Id);
+                int page = 1;
+                if (next.HasValue)
+                {
+                    page = next.Value ? IncrementPage() : DecrementPage();
+                }
+                
+                Session["Page"] = page;
+                ViewBag.page = page;
+                
+                var books = bookBAL.GetAllBooksPaged(bookFilter, currentUser.Id, PageSize, page);               
 
                 var booksModels = MapBooksToViewModels(books, currentUser);
 
@@ -142,17 +152,20 @@ namespace Library.UI.Controllers
         public List<BookModel> MapBooksToViewModels(List<Book> books, User user)
         {
             var booksModels = new List<BookModel>();
-            foreach (var book in books)
+            if (books != null)
             {
-                booksModels.Add(new BookModel
+                foreach (var book in books)
                 {
-                    BookId = book.Id,
-                    BookName = book.Name,
-                    Authers = ConcatAuthersNames(book.Authers),
-                    IsAvailable = book.IsAvailable ? "Yes" : "No",
-                    TakenByCurrentUser = book.CurrentReaderId == user.Id
-                });
-            }
+                    booksModels.Add(new BookModel
+                    {
+                        BookId = book.Id,
+                        BookName = book.Name,
+                        Authers = ConcatAuthersNames(book.Authers),
+                        IsAvailable = book.IsAvailable ? "Yes" : "No",
+                        TakenByCurrentUser = book.CurrentReaderId == user.Id
+                    });
+                }
+            }           
             return booksModels;
         }
 
@@ -217,6 +230,32 @@ namespace Library.UI.Controllers
                 default:
                     break;
             }
+        }
+
+        private int IncrementPage()
+        {
+            if (Session["Page"] == null)
+            {
+                return 1;
+            }
+            var page = (int)Session["Page"];
+            page = ++page;
+
+            Session["Page"] = page;
+            return page;
+        }
+
+        private int DecrementPage()
+        {
+            if (Session["Page"] == null)
+            {
+                return 1;
+            }
+            var page = (int)Session["Page"];
+            page = page > 1 ? --page : 1;
+
+            Session["Page"] = page;
+            return page;
         }
         #endregion
     }

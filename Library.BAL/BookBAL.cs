@@ -20,6 +20,11 @@ namespace Library.BAL
             return new BookRepo(connectionString).GetAllBook(bookFilter, userId);
         }
 
+        public List<Book> GetAllBooksPaged(int bookFilter, int userId, int pageSize, int Page)
+        {
+            return new BookRepo(connectionString).GetAllBookPaged(bookFilter, userId, pageSize, Page);
+        }
+
         public bool BorrowBook(int bookId, int userId)
         {
             return new BorrowOrderRepo(connectionString).BorrowBook(bookId, userId);
@@ -33,6 +38,6 @@ namespace Library.BAL
         public List<BorrowOrder> GetBookHistory(int bookId)
         {
             return new BorrowOrderRepo(connectionString).GetBorrowOrdersByBookId(bookId);
-        }
+        }       
     }
 }

@@ -8,11 +8,6 @@
 <h2>Books</h2>
 
 <p>
-    @*<select>
-        <option selected="selected">All books</option>
-        <option>Available</option>
-        <option>My books</option>
-    </select>*@
     @Html.ActionLink("All books", "Index", new { orderBy = ViewBag.OrderBy, sort = false, bookFilter = 1 }) | 
     @Html.ActionLink("Available", "Index", new { orderBy = ViewBag.OrderBy, sort = false, bookFilter = 2 }) |
     @Html.ActionLink("My books", "Index", new { orderBy = ViewBag.OrderBy, sort = false, bookFilter = 3 })
@@ -61,5 +56,12 @@
     </tr>
 }
 </table>
-
 <span>Showing : @ViewBag.BookFilterText , Ordered by : @ViewBag.OrderBy (@ViewBag.OrderDirection)</span>
+<br/>
+<span>
+    @Html.ActionLink("Prev", "Index", new { orderBy = ViewBag.OrderBy, sort = false, bookFilter = ViewBag.bookFilter , next = false})
+
+    - (@ViewBag.page) - 
+
+    @Html.ActionLink("Next", "Index", new { orderBy = ViewBag.OrderBy, sort = false, bookFilter = ViewBag.bookFilter, next = true })
+</span>

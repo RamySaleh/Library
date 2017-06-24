@@ -15,6 +15,7 @@ namespace Library.DAL
         private ADOHelper dbHelper;
         private IAutherRepo autherRepo;
         private const string sp_GetAllBooks = "GetAllBooks";
+        private const string sp_GetAllBooksPaged = "GetAllBooksPaged";
         private const string sp_GetBookById = "GetBookById";
 
         public BookRepo(string connectionString)
@@ -32,6 +33,34 @@ namespace Library.DAL
             .GetParameters();
 
             dbHelper.ExecuteProcedure(sp_GetAllBooks, (reader) =>
+            {
+                while (reader.Read())
+                {
+                    books.Add(new Book
+                    {
+                        Id = (int)reader[0],
+                        Name = reader[1].ToString(),
+                        IsAvailable = bool.Parse(reader[2].ToString()),
+                        Authers = autherRepo.GetAuthersByBookId((int)reader[0]),
+                        CurrentReaderId = reader[3] != DBNull.Value ? (int)reader[3] : -1
+                    });
+                }
+            }, sqlParameters);
+
+            return books;
+        }        
+
+        public List<Book> GetAllBookPaged(int bookFilter, int userId, int pageSize, int page)
+        {
+            var books = new List<Book>();
+            var sqlParameters = new SqlParametersHelper()
+            .AddParameter("@bookFilter", bookFilter, SqlDbType.Int)
+            .AddParameter("@userId", userId, SqlDbType.Int)
+            .AddParameter("@pageSize", pageSize, SqlDbType.Int)
+            .AddParameter("@page", page, SqlDbType.Int)
+            .GetParameters();
+
+            dbHelper.ExecuteProcedure(sp_GetAllBooksPaged, (reader) =>
             {
                 while (reader.Read())
                 {

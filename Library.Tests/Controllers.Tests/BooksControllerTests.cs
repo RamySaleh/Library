@@ -122,7 +122,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList);
+            bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
@@ -138,7 +138,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList);
+            bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
@@ -155,7 +155,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList.Where(b => b.IsAvailable).ToList());
+            bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList.Where(b => b.IsAvailable).ToList());
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
@@ -172,7 +172,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList.Where(b => b.CurrentReaderId == fakeUser.Id).ToList());
+            bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList.Where(b => b.CurrentReaderId == fakeUser.Id).ToList());
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 
@@ -191,7 +191,7 @@ namespace Library.Tests.Controllers.Tests
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(It.IsAny<int>(), fakeUser.Id)).Returns(() => fakeBooksList);
+            bookBALMoq.Setup(x => x.GetAllBooksPaged(It.IsAny<int>(), fakeUser.Id, It.IsAny<int>(), It.IsAny<int>())).Returns(() => fakeBooksList);
 
             BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
 

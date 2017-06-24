@@ -11,6 +11,8 @@ namespace Library.BAL
     {
         List<Book> GetAllBooks(int bookFilter, int userId);
 
+        List<Book> GetAllBooksPaged(int bookFilter, int userId, int pageSize, int Page);
+
         bool BorrowBook(int bookId, int userId);
 
         bool ReturnBook(int bookId, int userId);
