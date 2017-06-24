@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Library.Models;
 using System.Text;
+using Library.BAL;
 
 namespace Library.UI.Controllers
 {
@@ -14,6 +15,17 @@ namespace Library.UI.Controllers
     {
         static string orderedBy;
         static bool orderAscending;
+        IBookBAL bookBAL;
+
+        public BooksController()
+        {
+            bookBAL = new BookBAL(GlobalValues.ConnectionString);
+        }
+
+        public BooksController(IBookBAL bookBAL)
+        {
+            this.bookBAL = bookBAL;
+        }
 
         #region Actions
 
@@ -28,7 +40,7 @@ namespace Library.UI.Controllers
 
             SetBookFilterInViewbag(bookFilter);            
 
-            var books = new BAL.BookBAL(GlobalValues.ConnectionString).GetAllBooks(bookFilter, currentUser.Id);
+            var books = bookBAL.GetAllBooks(bookFilter, currentUser.Id);
 
             var booksModels = MapBooksToViewModels(books, currentUser);
 
