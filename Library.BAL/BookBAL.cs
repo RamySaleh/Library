@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Library.BAL
 {
-    public class BookBAL
+    public class BookBAL : IBookBAL
     {
         string connectionString;
         public BookBAL(string connectionString)

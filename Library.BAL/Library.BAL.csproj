@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BookBAL.cs" />
+    <Compile Include="Interfaces\IBookBAL.cs" />
+    <Compile Include="Interfaces\IUserBAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserBAL.cs" />
   </ItemGroup>
