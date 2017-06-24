@@ -1,0 +1,1 @@
+﻿DELETE FROM [dbo].[Book] where [Id] in (99991,99992,99993,99994,99995)

@@ -22,6 +22,7 @@ namespace Library.DAL
             dbHelper = new ADOHelper(connectionString);
             autherRepo = new AutherRepo(connectionString);
         }
+
         public List<Book> GetAllBook(int bookFilter, int userId)
         {
             var books = new List<Book>();
