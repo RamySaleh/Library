@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,7 @@ namespace Library.UI
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            IocContainer.RegisterDependencies();
         }
     }
 }

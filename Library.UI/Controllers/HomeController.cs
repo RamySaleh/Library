@@ -26,5 +26,10 @@ namespace Library.UI.Controllers
 
             return RedirectToAction("Login", "User");
         }
+
+        public ActionResult Error()
+        {           
+            return View("Error");
+        }
     }
 }

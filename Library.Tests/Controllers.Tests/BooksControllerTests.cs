@@ -1,4 +1,5 @@
 ﻿using Library.BAL;
+using Library.DependencyInjection;
 using Library.Models;
 using Library.UI.Controllers;
 using Library.UI.Models;
@@ -19,6 +20,11 @@ namespace Library.Tests.Controllers.Tests
     {
         static List<Book> fakeBooksList;        
         static User fakeUser;
+
+        public BooksControllerTests()
+        {
+            IocContainer.RegisterDependencies();
+        }
 
         [ClassInitialize]
         public static void Setup(TestContext testContext)

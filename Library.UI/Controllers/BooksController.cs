@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using Library.Models;
 using System.Text;
 using Library.BAL;
+using Library.DependencyInjection;
+using Library.Infrastructure.ExceptionHandling;
 
 namespace Library.UI.Controllers
 {
@@ -34,75 +36,107 @@ namespace Library.UI.Controllers
 
         public ActionResult Index(string orderBy, bool sort = true, int bookFilter = 1)
         {
-            if (Session["User"] == null)
+            try
             {
-                return RedirectToAction("Login", "User");
+                if (Session["User"] == null)
+                {
+                    return RedirectToAction("Login", "User");
+                }
+
+                var currentUser = (User)Session["User"];
+
+                SetBookFilterInViewbag(bookFilter);
+
+                var books = bookBAL.GetAllBooks(bookFilter, currentUser.Id);
+
+                var booksModels = MapBooksToViewModels(books, currentUser);
+
+                // Appy default order for the first time
+                if (string.IsNullOrWhiteSpace(orderBy))
+                {
+                    orderBy = SortByBookTitle;
+                    orderedBy = null;
+                    orderAscending = true;
+                }
+
+                booksModels = SortBooks(booksModels, orderBy, sort);
+
+                return View(booksModels);
             }
-
-            var currentUser = (User)Session["User"];
-
-            SetBookFilterInViewbag(bookFilter);            
-
-            var books = bookBAL.GetAllBooks(bookFilter, currentUser.Id);
-
-            var booksModels = MapBooksToViewModels(books, currentUser);
-
-            // Appy default order for the first time
-            if (string.IsNullOrWhiteSpace(orderBy))
+            catch (Exception ex)
             {
-                orderBy = SortByBookTitle;
-                orderedBy = null;
-                orderAscending = true;
-            }
-
-            booksModels = SortBooks(booksModels, orderBy, sort);
-
-            return View(booksModels);
-        }        
+                IocContainer.Resolve<IExceptionHandler>().HandleException(ex);
+                throw;
+            }           
+        }
 
         public ActionResult BorrowBook(int bookId)
         {
-            var currentUser = (User)Session["User"];
-            var result = new BAL.BookBAL(GlobalValues.ConnectionString).BorrowBook(bookId, currentUser.Id);
-
-            if (result)
+            try
             {
-                return RedirectToAction("Index");
-            }
+                var currentUser = (User)Session["User"];
+                var result = new BAL.BookBAL(GlobalValues.ConnectionString).BorrowBook(bookId, currentUser.Id);
 
-            return null;
+                if (result)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                IocContainer.Resolve<IExceptionHandler>().HandleException(ex);
+                throw;
+            }
         }
 
         public ActionResult ReturnBook(int bookId)
         {
-            var currentUser = (User)Session["User"];
-            var result = new BAL.BookBAL(GlobalValues.ConnectionString).ReturnBook(bookId, currentUser.Id);
-
-            if (result)
+            try
             {
-                return RedirectToAction("Index");
-            }
+                var currentUser = (User)Session["User"];
+                var result = new BAL.BookBAL(GlobalValues.ConnectionString).ReturnBook(bookId, currentUser.Id);
 
-            return null;
+                if (result)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                IocContainer.Resolve<IExceptionHandler>().HandleException(ex);
+                throw;
+            }
         }
 
         public ActionResult History(int bookId)
         {
-            var borrowOrders = new BAL.BookBAL(GlobalValues.ConnectionString).GetBookHistory(bookId);
-
-            var borrowOrdersModels = new List<BorrowOrderModel>();
-            
-            foreach (var borrowOrder in borrowOrders)
+            try
             {
-                borrowOrdersModels.Add(new BorrowOrderModel
+                var borrowOrders = new BAL.BookBAL(GlobalValues.ConnectionString).GetBookHistory(bookId);
+
+                var borrowOrdersModels = new List<BorrowOrderModel>();
+
+                foreach (var borrowOrder in borrowOrders)
                 {
-                   BookTitle = borrowOrder.Book.Name,
-                   ReaderName = borrowOrder.Reader.Name,
-                   ActionType = borrowOrder.ActionType,
-                   ActionTime = borrowOrder.ActionTime.ToLocalTime().ToString()
-                });
+                    borrowOrdersModels.Add(new BorrowOrderModel
+                    {
+                        BookTitle = borrowOrder.Book.Name,
+                        ReaderName = borrowOrder.Reader.Name,
+                        ActionType = borrowOrder.ActionType,
+                        ActionTime = borrowOrder.ActionTime.ToLocalTime().ToString()
+                    });
+                }
+                return View(borrowOrdersModels);
             }
-            return View(borrowOrdersModels);
+            catch (Exception ex)
+            {
+                IocContainer.Resolve<IExceptionHandler>().HandleException(ex);
+                throw;
+            }
         }
 
         #endregion

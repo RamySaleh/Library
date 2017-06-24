@@ -1,4 +1,6 @@
 ﻿using Library.BAL;
+using Library.DependencyInjection;
+using Library.Infrastructure.ExceptionHandling;
 using Library.Models;
 using Library.UI.Helpers;
 using System;
@@ -20,37 +22,61 @@ namespace Library.UI.Controllers
         [HttpPost]
         public ActionResult Register(User user)
         {
-            var userBAL = new UserBAL(GlobalValues.ConnectionString);
-
-            var result = userBAL.RegisterUser(user);
-
-            if (result)
+            try
             {
-                return RedirectToAction("Login");
-            }
+                var userBAL = new UserBAL(GlobalValues.ConnectionString);
 
-            return View();
+                var result = userBAL.RegisterUser(user);
+
+                if (result)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+                IocContainer.Resolve<IExceptionHandler>().HandleException(ex);
+                throw;
+            }
         }
 
         public ActionResult Login()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                IocContainer.Resolve<IExceptionHandler>().HandleException(ex);
+                throw;
+            }
         }
 
         [HttpPost]
         public ActionResult Login(User user)
         {
-            var userBAL = new UserBAL(GlobalValues.ConnectionString);
-
-            var loggedInUser = userBAL.Login(user);
-
-            if (loggedInUser != null)
+            try
             {
-                Session["User"] = loggedInUser;
-                return RedirectToAction("Index", "Books");
-            }
+                var userBAL = new UserBAL(GlobalValues.ConnectionString);
 
-            return View();
+                var loggedInUser = userBAL.Login(user);
+
+                if (loggedInUser != null)
+                {
+                    Session["User"] = loggedInUser;
+                    return RedirectToAction("Index", "Books");
+                }
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+                IocContainer.Resolve<IExceptionHandler>().HandleException(ex);
+                throw;
+            }
         }
     }
 }

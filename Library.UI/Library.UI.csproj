@@ -139,10 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="DependencyInjection\IocContainer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -168,6 +170,10 @@
     <ProjectReference Include="..\Library.BAL\Library.BAL.csproj">
       <Project>{3712bc0a-0742-4c90-9c7e-6d7cca033bdd}</Project>
       <Name>Library.BAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Library.Infrastructure\Library.Infrastructure.csproj">
+      <Project>{bec64e9f-5d79-4129-a1cb-e444afbc57dc}</Project>
+      <Name>Library.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Library.Models\Library.Models.csproj">
       <Project>{0a72ec59-8bcc-4291-b37e-07bb27f4e957}</Project>
