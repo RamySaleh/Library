@@ -10,9 +10,11 @@ using System.Text;
 using Library.BAL;
 using Library.DependencyInjection;
 using Library.Infrastructure.ExceptionHandling;
+using Library.UI.Attributes;
 
 namespace Library.UI.Controllers
 {
+    [AuthenticationFilter]
     public class BooksController : Controller
     {
         public const string SortByBookTitle = "Book Title";
@@ -38,11 +40,6 @@ namespace Library.UI.Controllers
         {
             try
             {
-                if (Session["User"] == null)
-                {
-                    return RedirectToAction("Login", "User");
-                }
-
                 var currentUser = (User)Session["User"];
 
                 SetBookFilterInViewbag(bookFilter);

@@ -1,4 +1,5 @@
-﻿using Library.UI.Helpers;
+﻿using Library.UI.Attributes;
+using Library.UI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,9 @@ namespace Library.UI.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Home
+        [AuthenticationFilter]
         public ActionResult Index()
         {
-            if (Session["User"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
             return View();
         }
 

@@ -118,26 +118,6 @@ namespace Library.Tests.Controllers.Tests
         }
 
         [TestMethod]
-        public void IndexAction_NotLoggedIn_RedirectToLogin()
-        {
-            // Arrange
-            var bookBALMoq = new Mock<IBookBAL>();
-            bookBALMoq.Setup(x => x.GetAllBooks(1, fakeUser.Id)).Returns(() => fakeBooksList);
-
-            var controllerContext = new Mock<ControllerContext>();
-            controllerContext.SetupGet(p => p.HttpContext.Session["User"]).Returns(null);
-
-            var bookController = new BooksController(bookBALMoq.Object);
-            bookController.ControllerContext = controllerContext.Object;
-
-            // Act
-            var result = bookController.Index(null) as RedirectToRouteResult;
-            
-            // Assert
-            Assert.IsTrue(result != null && result.RouteValues["action"].ToString() == "Login");
-        }
-
-        [TestMethod]
         public void IndexAction_LoggedIn_ReturnsView()
         {
             // Arrange
@@ -154,7 +134,7 @@ namespace Library.Tests.Controllers.Tests
         }       
 
         [TestMethod]
-        public void IndexAction_ReturnAllBook()
+        public void IndexAction_Filter_ReturnAllBook()
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
@@ -171,7 +151,7 @@ namespace Library.Tests.Controllers.Tests
         }
 
         [TestMethod]
-        public void IndexAction_ReturnAvailableBooks()
+        public void IndexAction_Filter_ReturnAvailableBooks()
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
@@ -188,7 +168,7 @@ namespace Library.Tests.Controllers.Tests
         }
 
         [TestMethod]
-        public void IndexAction_ReturnBooksTakenByUser()
+        public void IndexAction_Filter_ReturnBooksTakenByUser()
         {
             // Arrange
             var bookBALMoq = new Mock<IBookBAL>();
@@ -284,6 +264,23 @@ namespace Library.Tests.Controllers.Tests
             // Assert
             Assert.IsTrue(sortedModels != null &&
                 sortedModels.SequenceEqual(booksModels.OrderByDescending(b => b.Authers)));
+        }
+
+        [TestMethod]
+        public void BorrowBook()
+        {
+            // Arrange
+            var bookBALMoq = new Mock<IBookBAL>();
+            bookBALMoq.Setup(x => x.GetAllBooks(1, fakeUser.Id)).Returns(() => fakeBooksList);
+
+            BooksController bookController = CreateControllerWithFakeUser(bookBALMoq.Object);
+
+            // Act
+            var result = bookController.Index(null) as ViewResult;
+            var booksModels = result.Model as List<BookModel>;
+
+            // Assert
+            Assert.IsTrue(booksModels != null && booksModels.Count == 5);
         }
     }
 }
