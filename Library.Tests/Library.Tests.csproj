@@ -52,7 +52,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DAL.Tests\AutherRepoTests.cs" />
     <Compile Include="DAL.Tests\BookRepoTests.cs" />
     <Compile Include="Helpers\ADOHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
