@@ -9,14 +9,21 @@ namespace Library.Infrastructure.ExceptionHandling
 {
     public class LogFileExceptionHandler : IExceptionHandler
     {
-        public const string logFilePath = "log.txt";
+        public LogFileExceptionHandler()
+        {
+            var directoryName = Path.GetDirectoryName(logFilePath);
+            if (!Directory.Exists(directoryName))
+            {
+                Directory.CreateDirectory(directoryName);
+            }
+        }
+        public const string logFilePath = @"c:\LibraryApplicationLog\log.txt";
         public void HandleException(Exception ex)
         {
             var exceptionLog = new List<string>();
             exceptionLog.Add( $"Time : {DateTime.Now.ToLocalTime().ToString()}, Message : {ex.Message}");
             exceptionLog.Add( $"Stack Trace : {ex.StackTrace}");
             exceptionLog.Add( $"--------------------------------");
-
             File.AppendAllLines(logFilePath, exceptionLog);
         }
     }
