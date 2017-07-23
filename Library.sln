@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		ReadMe.txt = ReadMe.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Specs", "Library.Specs\Library.Specs.csproj", "{7A03B14A-BA36-42B7-A8CB-678FD826FADA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{BEC64E9F-5D79-4129-A1CB-E444AFBC57DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEC64E9F-5D79-4129-A1CB-E444AFBC57DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEC64E9F-5D79-4129-A1CB-E444AFBC57DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A03B14A-BA36-42B7-A8CB-678FD826FADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A03B14A-BA36-42B7-A8CB-678FD826FADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A03B14A-BA36-42B7-A8CB-678FD826FADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A03B14A-BA36-42B7-A8CB-678FD826FADA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
